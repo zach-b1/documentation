@@ -15,20 +15,39 @@ Preparations
 
 * Horizon: for versions >= Rocky: when using an overlay configuration file environments/kolla/files/overlays/horizon/local_settings.j2 , replace it by https://raw.githubusercontent.com/osism/cfg-cookiecutter/master/cfg-%7B%7Bcookiecutter.project_name%7D%7D/environments/kolla/files/overlays/horizon/custom_local_settings
 
-* gather facts with ``osism-generic facts`` before the upgrade
+.. code-block:: console
+   :caption: gather facts before the upgrade
+
+   osism-generic facts
 
 * backup MariaDB databases before the upgrade
 
 Notes
 =====
 
-* Horizon: after the upgrade cleanup and regenerate the cached files with ``docker exec -it horizon rm /var/lib/kolla/.local_settings.md5sum.txt && docker restart horizon``
-
-* Nova: Upgrade the controller (``osism-kolla upgrade nova -l controller``) followed by the compute nodes (``osism-kolla upgrade nova -l compute``)
-
-* Elasticsearch: After the ugprade of Elasticsearch enable the shard allocation.
+* Horizon
 
   .. code-block:: console
+     :caption: after the upgrade cleanup and regenerate the cached files
+
+     docker exec -it horizon rm /var/lib/kolla/.local_settings.md5sum.txt && docker restart horizon
+
+* Nova
+
+  .. code-block:: console
+     :caption: Upgrade the controller
+
+     osism-kolla upgrade nova -l controller
+
+  .. code-block:: console
+     :caption: followed by the compute nodes
+
+     osism-kolla upgrade nova -l compute
+
+* Elasticsearch
+
+  .. code-block:: console
+     :caption: After the ugprade of Elasticsearch enable the shard allocation.
 
      curl -X PUT "http://api-int.osism.local:9200/_cluster/settings?pretty" -H 'Content-Type: application/json' -d'
      {
@@ -57,7 +76,13 @@ Docker
 
 .. code-block:: none
 
-   fatal: [20-10.betacloud.xyz]: FAILED! => {"changed": true, "failed": true, "msg": "'Traceback (most recent call last):\\n  File \"/tmp/ansible_Lrxpgg/ansible_module_kolla_docker.py\", line 804, in main\\n    dw = DockerWorker(module)\\n  File \"/tmp/ansible_Lrxpgg/ansible_module_kolla_docker.py\", line 218, in __init__\\n    self.dc = get_docker_client()(**options)\\n  File \"/tmp/ansible_Lrxpgg/ansible_module_kolla_docker.py\", line 201, in get_docker_client\\n    return docker.APIClient\\nAttributeError: \\'module\\' object has no attribute \\'APIClient\\'\\n'"}
+   fatal: [20-10.betacloud.xyz]: FAILED! => {"changed": true, "failed": true, "msg": "'Traceback (most recent call last):\\n
+   File \"/tmp/ansible_Lrxpgg/ansible_module_kolla_docker.py\", line 804, in main\\n
+     dw = DockerWorker(module)\\n
+   File \"/tmp/ansible_Lrxpgg/ansible_module_kolla_docker.py\", line 218, in __init__\\n
+     self.dc = get_docker_client()(**options)\\n
+   File \"/tmp/ansible_Lrxpgg/ansible_module_kolla_docker.py\", line 201, in get_docker_client\\n
+     return docker.APIClient\\nAttributeError: \\'module\\' object has no attribute \\'APIClient\\'\\n'"}
 
 .. code-block:: console
 
@@ -76,12 +101,6 @@ Inventory
 
    [neutron-bgp-dragent:children]
    network
-
-.. code-block:: ini
-
-   # neutron
-
-   [...]
 
    [openvswitch:children]
    network
@@ -129,19 +148,18 @@ Queens -> Rocky
 Inventory
 ---------
 
-* Add new host groups to ``inventory/hosts`` to the ``environment: kolla`` section
+.. code-block:: ini
+   :caption: Add new host groups to ``inventory/hosts`` to the ``environment: kolla`` section
 
-  .. code-block:: ini
+   # neutron
 
-     # neutron
+   [...]
 
-     [...]
+   [neutron-infoblox-ipam-agent:children]
+   network
 
-     [neutron-infoblox-ipam-agent:children]
-     network
-
-     [ironic-neutron-agent:children]
-     network
+   [ironic-neutron-agent:children]
+   network
 
 Configuration
 -------------
