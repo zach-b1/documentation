@@ -7,9 +7,8 @@ Docker
    When upgrading, the Docker service is restarted. As a result, it comes to a restart of the container.
    This can lead to interruptions in individual services.
 
-* ``environments/configuration.yml``
-
 .. code-block:: yaml
+   :caption: environments/configuration.yml
 
    docker_version: '5:18.09.2'
 
