@@ -9,23 +9,23 @@ Ceph
 Luminous -> Luminous
 ====================
 
-* ``environments/configuration.yml``
-
 .. code-block:: yaml
+   :caption: environments/configuration.yml
 
    ceph_manager_version: 20180807-0
 
-* ``environments/manager/configuration.yml``
-
 .. code-block:: yaml
+   :caption: environments/manager/configuration.yml
 
    ceph_manager_version: 20180807-0
-
-* update the manager with ``osism-manager manager``
-
-* check versions
 
 .. code-block:: console
+   :caption: update the manager
+
+   osism-manager manager
+
+.. code-block:: console
+   :caption: check versions
 
    $ ceph versions
    {
@@ -46,17 +46,15 @@ Luminous -> Luminous
        }
    }
 
-* start the update
-
 .. code-block:: console
+   :caption: start the update
 
    $ osism-ceph rolling_update -e @/ansible/group_vars/all/defaults.yml
    Are you sure you want to upgrade the cluster? [no]: yes
    [...]
 
-* check versions during the update
-
 .. code-block:: console
+   :caption: check versions during the update
 
    $ ceph versions
    {
@@ -79,9 +77,8 @@ Luminous -> Luminous
        }
    }
 
-* check versions after the update
-
 .. code-block:: console
+   :caption: check versions after the update
 
    $ ceph versions
 
