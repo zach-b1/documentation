@@ -100,7 +100,7 @@ Inventory
 Configuration
 -------------
 
-* Mistral: Redis is now required by default, enabled & deploy it (add ``redis`` host group to inventory, enable deployment with ``enable_redis: "yes"`` in ``environments/kolla/configuration.yml``, add ``redis_master_password`` to ``environments/kolla/secrets.yml``)
+* Mistral: Redis is now required by default, enabled & deploy it (add ``redis`` host group to inventory, enable deployment with ``enable_redis: "yes"`` in ``environments/kolla/configuration.yml``, add ``redis_master_password`` to ``environments/kolla/secrets.yml``) and deploy before OpenStack components.
 
 * Ceilometer: The Ceilometer API was dropped. Remove all ``ceilometer / metering`` endpoints from Keystone (openstack endpoint list) and remove the ``ceilometer-api`` host group from the inventory
 
@@ -108,6 +108,76 @@ Notes
 -----
 
 * Ceilometer: After the upgrade remove the ``ceilometer_api`` container & image from all controller nodes and remove the configuration directory ``/etc/kolla/ceilometer-api``
+
+Ocata -> Rocky
+==============
+
+Additional to all changes here for updates to Rocky, change the following
+
+.. code-block:: yaml
+   :caption: environments/configuration.yml ``and`` environments/manager/configuration.yml, change versions
+
+   openstack_version: rocky
+   repository_version: 2019.4.0
+   ceph_manager_version: 2019.4.0
+   kolla_manager_version: 2019.4.0
+   osism_manager_version: 2019.4.0
+
+.. code-block:: yaml
+   :caption: environments/configuration.yml, change all osism_serial to 100% and add upgrade_packages
+
+   osism_serial:
+   cockpit: 100%
+   ...
+   upgrade_packages: 100%
+
+.. code-block:: yaml
+   :caption: environments/configuration.yml, delete docker_parameters
+
+   -docker_parameters: "--live-restore"
+
+.. code-block:: yaml
+   :caption: environments/kolla/configuration.yml, delete extension_drivers
+
+   extension_drivers:
+     - name: "qos"
+       enabled: True
+     - name: "port_security"
+       enabled: True
+     - name: "dns"
+       enabled: False
+
+.. code-block:: yaml
+   :caption: environments/kolla/configuration.yml, add gnocchi and glance configurations
+
+   gnocchi_backend_storage: "ceph"
+
+   ceph_gnocchi_pool_name: "metrics"
+
+   glance_backend_file: "no"
+
+.. code-block:: yaml
+   :caption: environments/kolla/images.yml
+
+   cinder_volume_tag: "rocky-2019.4.0"
+
+   rabbitmq_tag: "rocky-2019.4.0"
+
+.. code-block:: yaml
+   :caption: environments/manager/configuration.yml, add ara configuration
+
+   ara_server_host: "{{ hostvars[inventory_hostname]['ansible_' + console_interface]['ipv4']['address'] }}"
+
+.. code-block:: yaml
+   :caption: environments/manager/images.yml, change kolla_ansible_tag
+
+   kolla_ansible_tag: "{{ openstack_version|default('rocky') }}-{{ kolla_manager_version|default('latest') }}"
+
+.. code-block:: console
+   :caption: delete all package hold, if present
+
+   sudo dpkg --get-selections
+   echo "<packagename> install" | sudo dpkg --set-selections
 
 Pike -> Queens
 ==============
