@@ -64,8 +64,8 @@ PCI passthrough
 
      $ docker exec -it nova_libvirt virt-host-validate
      [...]
-     QEMU: Checking for device assignment IOMMU support                         : PASS
-     QEMU: Checking if IOMMU is enabled by kernel                               : PASS
+     QEMU: Checking for device assignment IOMMU support  : PASS
+     QEMU: Checking if IOMMU is enabled by kernel        : PASS
      [...]
 
 * IOMMU WARN
@@ -74,8 +74,8 @@ PCI passthrough
 
      $ docker exec -it nova_libvirt virt-host-validate
      [...]
-     QEMU: Checking for device assignment IOMMU support                         : PASS
-     QEMU: Checking if IOMMU is enabled by kernel                               : WARN (IOMMU appears to be disabled in kernel. Add intel_iommu=on to kernel cmdline arguments)
+     QEMU: Checking for device assignment IOMMU support  : PASS
+     QEMU: Checking if IOMMU is enabled by kernel        : WARN (IOMMU appears to be disabled in kernel. Add intel_iommu=on to kernel cmdline arguments)
      [...]
 
 * enable IOMMU support (AMD)
@@ -109,10 +109,11 @@ PCI passthrough
      i2c_algo_bit           16384  3 ast,igb,nouveau
      wmi                    20480  2 mxm_wmi,nouveau
 
-* disable nouveau in ``/etc/modprobe.d/blacklist-nvidia-nouveau.conf``
+* disable nouveau
 
   .. code-block:: console
-    
+     :caption: /etc/modprobe.d/blacklist-nvidia-nouveau.conf
+
      blacklist nouveau
      options nouveau modeset=0
 
@@ -129,30 +130,34 @@ PCI passthrough
 
      $ lspci -nn
 
-* enable PCI passthrough module in ``/etc/modprobe.d/vfio.conf``
+* enable PCI passthrough module
 
   .. code-block:: console
- 
+     :caption: /etc/modprobe.d/vfio.conf
+
      options vfio-pci ids=10de:1b38
      options vfio-pci disable_vga=1
 
-* enable the ``PciPassthroughFilter`` scheduler in ``environments/kolla/files/overlays/nova/nova-scheduler.conf``
+* enable the ``PciPassthroughFilter`` scheduler
 
   .. code-block:: ini
+     :caption: environments/kolla/files/overlays/nova/nova-scheduler.conf
 
      [filter_scheduler]
      enabled_filters = ..., PciPassthroughFilter
 
-* specify PCI aliases for the devices in ``environments/kolla/files/overlays/nova/nova-api.conf`` and ``environments/kolla/files/overlays/nova/nova-compute.conf``
+* specify PCI aliases for the devices
 
   .. code-block:: ini
+     :caption: environments/kolla/files/overlays/nova/nova-api.conf ``and`` environments/kolla/files/overlays/nova/nova-compute.conf
 
      [pci]
      alias = { "vendor_id": "10de", "product_id":"1b38", "device_type":"type-PCI", "name":"nvidiap40" }
 
-* whitelist PCI devices in ``environments/kolla/files/overlays/nova/nova-compute.conf``
+* whitelist PCI devices
 
   .. code-block:: ini
+     :caption: environments/kolla/files/overlays/nova/nova-compute.conf
 
      [pci]
      passthrough_whitelist = { "address": "0000:41:00.0" }
@@ -160,6 +165,7 @@ PCI passthrough
   or
 
   .. code-block:: ini
+     :caption: environments/kolla/files/overlays/nova/nova-compute.conf
 
      [pci]
      passthrough_whitelist = { "vendor_id": "10de", "product_id": "1b38" }
@@ -179,7 +185,8 @@ PCI passthrough
 
   .. code-block:: console
 
-     $ openstack --os-cloud service flavor set 1C-1G-1GB-10GB --property "pci_passthrough:alias"="nvidiap40:1"
+     $ openstack --os-cloud service flavor set 1C-1G-1GB-10GB \
+                 --property "pci_passthrough:alias"="nvidiap40:1"
 
 Resource isolation
 ==================

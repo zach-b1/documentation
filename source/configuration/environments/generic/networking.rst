@@ -47,9 +47,8 @@ Resolvconf
 If available, the company's internal DNS servers should be used. If no own DNS servers
 are available, we recommend using the DNS servers from `Quad9 <https://www.quad9.net>`_.
 
-* ``environments/configuration.yml``
-
 .. code-block:: yaml
+   :caption: environments/configuration.yml
 
    ##########################
    # resolvconf

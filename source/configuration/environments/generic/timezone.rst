@@ -13,13 +13,12 @@ Timezone
    * - **Documentation**
      - ---
 
-* ``environments/configuration.yml``
+.. code-block:: yaml
+   :caption: environments/configuration.yml
 
-  .. code-block:: yaml
+   ##########################
+   # timezone
 
-     ##########################
-     # timezone
-
-     timezone_zone: UTC
+   timezone_zone: UTC
 
 * possible timezones: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones

@@ -5,16 +5,14 @@ Cinder
 iSCSI support
 =============
 
-* ``environments/kolla/configuration.yml``
-
 .. code-block:: yaml
+   :caption: environments/kolla/configuration.yml
 
    enable_cinder_backend_iscsi: yes
    enable_cinder_backend_lvm: no
 
-* ``inventory/hosts``
-
 .. code-block:: ini
+   :caption: inventory/hosts
 
    [iscsid:children]
    compute

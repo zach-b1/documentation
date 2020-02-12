@@ -16,9 +16,8 @@ Configuration
 Git
 ===
 
-* ``environments/configuration.yml``
-
 .. code-block:: yaml
+   :caption: environments/configuration.yml
 
    ##########################
    # configuration
@@ -41,14 +40,13 @@ Deploy key
 * https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys
 * https://docs.gitlab.com/ee/ssh/#per-repository-deploy-keys
 
-* ``environments/secrets.yml``
+.. code-block:: yaml
+   :caption: environments/secrets.yml
 
-  .. code-block:: yaml
+   ##########################
+   # private ssh keys
 
-     ##########################
-     # private ssh keys
-
-     configuration_git_private_key: |
-       -----BEGIN RSA PRIVATE KEY-----
-       [...]
-       -----END RSA PRIVATE KEY-----
+   configuration_git_private_key: |
+     -----BEGIN RSA PRIVATE KEY-----
+     [...]
+     -----END RSA PRIVATE KEY-----

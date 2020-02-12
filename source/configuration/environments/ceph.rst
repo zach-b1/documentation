@@ -13,30 +13,28 @@ Base directory: ``environments/ceph``
 Generic
 =======
 
-* ``environments/ceph/configuration.yml``
+.. code-block:: yaml
+   :caption: environments/ceph/configuration.yml
 
-  .. code-block:: yaml
+   ##########################
+   # generic
 
-     ##########################
-     # generic
+   containerized_deployment: true
 
-     containerized_deployment: true
+   osd_objectstore: bluestore
+   osd_scenario: lvm
 
-     osd_objectstore: bluestore
-     osd_scenario: lvm
+   generate_fsid: false
+   fsid: 1a6b162c-cc15-4569-aa09-db536c93569f
 
-     generate_fsid: false
-     fsid: 1a6b162c-cc15-4569-aa09-db536c93569f
+.. code-block:: yaml
+   :caption: environments/configuration.yml
 
-* ``environments/configuration.yml``
+   ##########################
+   # ceph
 
-  .. code-block:: yaml
-
-     ##########################
-     # ceph
-
-     ceph_share_directory: /share
-     ceph_cluster_fsid: 1a6b162c-cc15-4569-aa09-db536c93569f
+   ceph_share_directory: /share
+   ceph_cluster_fsid: 1a6b162c-cc15-4569-aa09-db536c93569f
 
 Devices
 =======
@@ -80,24 +78,22 @@ a separate network, which is used by OSDs. The network used by OSDs is called
 ``cluster_network``. When omitting the ``cluster_network`` variable, the
 ``public_network`` is used by OSDs as well.
 
-* ``environments/ceph/configuration.yml``
+.. code-block:: yaml
+   :caption: environments/ceph/configuration.yml
 
-  .. code-block:: yaml
+   ##########################
+   # network
 
-     ##########################
-     # network
+   public_network: 10.0.5.0/24
+   cluster_network: 10.0.6.0/24
 
-     public_network: 10.0.5.0/24
-     cluster_network: 10.0.6.0/24
+.. code-block:: yaml
+   :caption: environments/kolla/configuration.yml
 
-* ``environments/kolla/configuration.yml``
+   ##########################################################
+   # external ceph
 
-  .. code-block:: yaml
-
-     ##########################################################
-     # external ceph
-
-     ceph_public_network: 10.0.5.0/24
+   ceph_public_network: 10.0.5.0/24
 
 .. note::
 
@@ -218,31 +214,28 @@ Custom
 
 * https://github.com/ceph/ceph-ansible#configuring-ceph
 
-* ``environments/ceph/configuration.yml``
+.. code-block:: yaml
+   :caption: environments/ceph/configuration.yml
 
-  .. code-block:: yaml
+   ##########################
+   # custom
 
-     ##########################
-     # custom
-
-     ceph_conf_overrides:
-       mon:
-         mon allow pool delete: true
+   ceph_conf_overrides:
+     mon:
+       mon allow pool delete: true
 
 Dashboard
 =========
 
 * http://docs.ceph.com/docs/luminous/mgr/dashboard/
 
-* manual activation
-
 .. code-block:: console
+   :caption: manual activation
 
    $ ceph mgr module enable dashboard
 
-* ``environments/ceph/configuration.yml``
-
 .. code-block:: yaml
+   :caption: environments/ceph/configuration.yml
 
    ##########################
    # custom

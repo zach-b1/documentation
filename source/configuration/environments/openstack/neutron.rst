@@ -5,9 +5,8 @@ Neutron
 Multiple provider networks
 ==========================
 
-* ``inventory/host_vars/<hostname>.yml``
-
 .. code-block:: yaml
+   :caption: inventory/host_vars/<hostname>.yml
 
    network_interfaces:
    [...]
@@ -23,15 +22,13 @@ Multiple provider networks
       method: manual
       mtu: 1500
 
-* ``environments/kolla/configuration.yml`` or ``inventory/host_vars/<hostname>.yml``
-
 .. code-block:: yaml
+  :caption: environments/kolla/configuration.yml ``or`` inventory/host_vars/<hostname>.yml
 
    enable_neutron_provider_networks: "yes"
 
-* ``environments/kolla/configuration.yml`` or ``inventory/host_vars/<hostname>.yml``
-
 .. code-block:: yaml
+  :caption: environments/kolla/configuration.yml ``or`` inventory/host_vars/<hostname>.yml
 
    neutron_bridge_name: br-eth3,br-eth4
    neutron_external_interface: eth3,eth4
@@ -39,9 +36,8 @@ Multiple provider networks
 VLAN interfaces as flat provider networks
 =========================================
 
-* ``inventory/host_vars/<hostname>.yml``
-
 .. code-block:: yaml
+   :caption: inventory/host_vars/<hostname>.yml
 
    network_interfaces:
    [...]
@@ -61,15 +57,13 @@ VLAN interfaces as flat provider networks
         raw-device: bond0
       mtu: 1500
 
-* ``environments/kolla/configuration.yml`` or ``inventory/host_vars/<hostname>.yml``
-
 .. code-block:: yaml
+   :caption: environments/kolla/configuration.yml ``or`` inventory/host_vars/<hostname>.yml
 
    enable_neutron_provider_networks: "yes"
 
-* ``environments/kolla/configuration.yml`` or ``inventory/host_vars/<hostname>.yml``
-
 .. code-block:: yaml
+   :caption: environments/kolla/configuration.yml ``or`` inventory/host_vars/<hostname>.yml
 
    neutron_bridge_name: [...],br-vlan100,br-vlan200
    neutron_external_interface: [...],br-vlan100,br-vlan200
@@ -85,7 +79,7 @@ VLAN interfaces as flat provider networks
 
    .. code-block:: console
 
-      $ docker exec -it openvswitch_vswitchd ovs-vsctl get Bridge br-vlan100 datapath-id                                     
+      $ docker exec -it openvswitch_vswitchd ovs-vsctl get Bridge br-vlan100 datapath-id
       $ docker exec -it openvswitch_vswitchd ovs-vsctl get Bridge br-vlan200 datapath-id
 
    * Eleminate duplicate datapath ids

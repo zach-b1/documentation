@@ -11,7 +11,7 @@ The configuration of a domain is stored in an overlay configuration file of Koll
 the domain is stored in the file name.
 
 .. code-block:: ini
-   :caption: ``environments/kolla/files/overlays/keystone/domains/keystone.DOMAIN.conf``
+   :caption: environments/kolla/files/overlays/keystone/domains/keystone.DOMAIN.conf
 
    [identity]
    driver = ldap

@@ -67,9 +67,8 @@ Service ``netbox`` that starts a Netbox service for IPA & inventory management o
 
 It is executed with ``osism-run custom service-netbox``.
 
-* ``playbook-service-netbox.yml``
-
 .. code-block:: yaml
+   :caption: playbook-service-netbox.yml
 
    ---
    - name: Custom service netbox
@@ -120,9 +119,8 @@ It is executed with ``osism-run custom service-netbox``.
 
 * Create ``templates/netbox`` directory
 
-* ``templates/netbox/docker-compose.yml.j2``
-
 .. code-block:: yaml
+   :caption: templates/netbox/docker-compose.yml.j2
 
    ---
    version: '3'
@@ -163,9 +161,8 @@ It is executed with ``osism-run custom service-netbox``.
      static:
        driver: local
 
-* ``templates/netbox/configuration.py.j2``
-
 .. code-block:: python
+   :caption: templates/netbox/configuration.py.j2
 
    ALLOWED_HOSTS = ['*']
 
@@ -179,9 +176,8 @@ It is executed with ``osism-run custom service-netbox``.
 
    SECRET_KEY = '{{ custom_netbox_secret_key }}'
 
-* Add to ``images.yml``
-
 .. code-block:: yaml
+   :caption: images.yml
 
    ##########################
    # custom service: netbox
@@ -195,9 +191,8 @@ It is executed with ``osism-run custom service-netbox``.
    custom_netbox_postgres_tag: 9.6
    custom_netbox_postgres_image: "postgres:{{ custom_netbox_postgres_tag }}"
 
-* Add to ``secrets.yml``
-
 .. code-block:: yaml
+   :caption: secrets.yml
 
    ##########################
    # custom service: netbox
@@ -206,9 +201,8 @@ It is executed with ``osism-run custom service-netbox``.
    custom_netbox_secret_key: password
    custom_netbox_superuser_password: password
 
-* Add to ``configuration.yml``
-
 .. code-block:: yaml
+   :caption: configuration.yml
 
    ##########################
    # custom service: netbox
@@ -237,9 +231,8 @@ It is executed with ``osism-run custom service-grafana``.
 
    Subsequent commented blocks are then commented out accordingly.
 
-* ``templates/grafana/docker-compose.yml.j2``
-
 .. code-block:: yaml
+   :caption: templates/grafana/docker-compose.yml.j2
 
    ---
    version: '2'
@@ -255,9 +248,8 @@ It is executed with ``osism-run custom service-grafana``.
      data:
        driver: local
 
-* ``playbook-service-grafana.yml``
-
 .. code-block:: yaml
+   :caption: playbook-service-grafana.yml
 
    ---
    - name: Custom service grafana
@@ -306,9 +298,8 @@ It is executed with ``osism-run custom service-grafana``.
        register: result
        changed_when: ('Creating' in result.stdout or 'Recreating' in result.stdout)
 
-* Add to ``images.yml``
-
 .. code-block:: yaml
+   :caption: images.yml
 
    ##########################
    # grafana
@@ -316,18 +307,16 @@ It is executed with ``osism-run custom service-grafana``.
    custom_grafana_tag: 5.2.4
    custom_grafana_image: "{{ docker_registry }}/grafana/grafana:{{ custom_grafana_tag }}"
 
-* Add to ``secrets.yml``
-
 .. code-block:: yaml
+   :caption: secrets.yml
 
    ##########################
    # grafana
 
    custom_grafana_admin_password: password
 
-* Add to ``configuration.yml``
-
 .. code-block:: yaml
+   :caption: configuration.yml
 
    ##########################
    # grafana

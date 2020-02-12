@@ -28,9 +28,8 @@ Inventory
 
 Add host-specific Kolla variables for network interfaces to the inventory.
 
-* ``inventory/host_vars/<hostname>.yml``
-
 .. code-block:: yaml
+   :caption: inventory/host_vars/<hostname>.yml
 
    ---
    [...]
@@ -48,9 +47,8 @@ Add host-specific Kolla variables for network interfaces to the inventory.
 Use a specific image version
 ============================
 
-* ``environments/kolla/images.yml``
-
 .. code-block:: yaml
+   :caption: environments/kolla/images.yml
 
    ---
    [...]
@@ -144,7 +142,8 @@ container on the manager node.
 
 .. code-block:: console
 
-   docker exec -u root -ti manager_kolla-ansible_1 sh -c 'cat /etc/kolla/certificates/private/haproxy.*'
+   docker exec -u root -ti manager_kolla-ansible_1 sh \
+      -c 'cat /etc/kolla/certificates/private/haproxy.*'
 
 Add the content of the output from the command above to
 ``kolla_external_fqdn_cert`` parameter at ``environments/kolla/secrets.yml``
