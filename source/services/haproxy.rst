@@ -76,3 +76,25 @@ Restart HAProxy to load new certificate
 .. code-block:: console
 
    osism-ansible generic all -m shell -a 'docker restart haproxy' -l control
+
+
+Maintance services (disable/enable)
+-----------------------------------
+
+* for disable 
+   
+.. code-block:: console
+     
+   echo "disable server service/node" | docker exec -i haproxy socat unix-connect:/var/lib/kolla/haproxy/haproxy.sock stdio
+
+* for enable
+
+.. code-block:: console
+
+   echo "enable server service/node" | docker exec -i haproxy socat unix-connect:/var/lib/kolla/haproxy/haproxy.sock stdio
+
+* state
+
+.. code-block:: console
+
+   echo "show servers state" | docker exec -i haproxy socat unix-connect:/var/lib/kolla/haproxy/haproxy.sock stdio
